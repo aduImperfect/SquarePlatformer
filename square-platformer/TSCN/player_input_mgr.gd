@@ -21,6 +21,8 @@ extends CharacterBody2D
 @export var is_jumping : bool = false
 @export var grounded : bool = true
 
+@export var playerStartPos : Vector2
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	up_speed = 0.0
@@ -36,6 +38,7 @@ func _ready() -> void:
 	no_input = false
 	is_jumping = false
 	grounded = true
+	playerStartPos = position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -55,6 +58,8 @@ func _process(_delta: float) -> void:
 			up_speed -= _delta * up_speed_dec
 		else:
 			up_speed = up_speed_min
+
+	_player_death()
 
 func _physics_process(_delta: float) -> void:
 	position.x += _delta * horiz_speed
@@ -89,3 +94,12 @@ func _input(_event: InputEvent) -> void:
 			is_jumping = true
 		else:
 			is_jumping = false
+
+func _player_death() -> void:
+	if position.y > 150.0:
+		position = playerStartPos
+		up_speed = 0.0
+		horiz_speed = 0.0
+		no_input = false
+		is_jumping = false
+		grounded = true
