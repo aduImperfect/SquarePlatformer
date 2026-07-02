@@ -1,8 +1,5 @@
 extends CharacterBody2D
 
-#@export var forward_vector : Vector2 = global_transform.x
-#@export var up_vector : Vector2 = -global_transform.y
-
 @export var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var up_speed : float = 0.0
@@ -59,8 +56,6 @@ func _process(_delta: float) -> void:
 		else:
 			up_speed = up_speed_min
 
-	#print(up_speed)
-
 func _physics_process(_delta: float) -> void:
 	position.x += _delta * horiz_speed
 	position.y -= _delta * up_speed
@@ -77,7 +72,6 @@ func _physics_process(_delta: float) -> void:
 func _input(_event: InputEvent) -> void:
 	if _event is InputEventKey and _event.keycode == KEY_LEFT:
 		if _event.is_pressed():
-			#print("LEFT KEY PRESSED")
 			horiz_speed = -max_horiz_speed
 			no_input = false
 		else:
@@ -85,7 +79,6 @@ func _input(_event: InputEvent) -> void:
 
 	if _event is InputEventKey and _event.keycode == KEY_RIGHT:
 		if _event.is_pressed():
-			#print("RIGHT KEY PRESSED")
 			horiz_speed = max_horiz_speed
 			no_input = false
 		else:
