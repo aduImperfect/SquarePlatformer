@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dhhpeafn8hq51"]
+
+[ext_resource type="PackedScene" uid="uid://c1fak3ic51u8i" path="res://TSCN/ground.tscn" id="1_82x00"]
+
+[node name="Level1" type="Node2D" unique_id=1977552670]
+
+[node name="Ceiling_1" parent="." unique_id=521068129 instance=ExtResource("1_82x00")]
+position = Vector2(920, -132)
+scale = Vector2(44, 1)
+
+[node name="Wall_Left" parent="." unique_id=1889220283 instance=ExtResource("1_82x00")]
+position = Vector2(20, 448)
+scale = Vector2(1, 10)
+
+[node name="Wall_Left2" parent="." unique_id=661023265 instance=ExtResource("1_82x00")]
+position = Vector2(20, 48.000004)
+scale = Vector2(1, 10)
+
+[node name="Ground_1" parent="." unique_id=910253821 instance=ExtResource("1_82x00")]
+position = Vector2(440.00003, 628)
+scale = Vector2(20, 1)
+
+[node name="Ground_2" parent="." unique_id=1242729180 instance=ExtResource("1_82x00")]
+position = Vector2(1383, 628)
+scale = Vector2(20, 1)
+
+[node name="Wall_Right" parent="." unique_id=94926086 instance=ExtResource("1_82x00")]
+position = Vector2(1803, 448)
+scale = Vector2(1, 10)
+
+[node name="Wall_Right2" parent="." unique_id=2002316622 instance=ExtResource("1_82x00")]
+position = Vector2(1803, 48)
+scale = Vector2(1, 10)
+
+[node name="Ground_3" parent="." unique_id=891354288 instance=ExtResource("1_82x00")]
+position = Vector2(1684, 550)
+scale = Vector2(5, 1)
+
+[node name="Ground_4" parent="." unique_id=1395679863 instance=ExtResource("1_82x00")]
+position = Vector2(1413, 464)
+scale = Vector2(5, 1)
