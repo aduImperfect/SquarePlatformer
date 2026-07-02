@@ -3,28 +3,28 @@
 [ext_resource type="Texture2D" uid="uid://cwy3uk4nom1jd" path="res://Textures/Player.png" id="1_mc0db"]
 [ext_resource type="Script" uid="uid://vwtq600ko2nm" path="res://TSCN/player_input_mgr.gd" id="2_ljt5j"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mc0db"]
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mc0db"]
 friction = 0.5
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mc0db"]
-
 [node name="Player" type="Node2D" unique_id=385360104]
 
-[node name="PlayerRB2D" type="RigidBody2D" parent="." unique_id=1738796308]
-physics_material_override = SubResource("PhysicsMaterial_mc0db")
-lock_rotation = true
+[node name="PlayerCB2D" type="CharacterBody2D" parent="." unique_id=294312982]
 script = ExtResource("2_ljt5j")
 
-[node name="PlayerCam" type="Camera2D" parent="PlayerRB2D" unique_id=882110774]
+[node name="PlayerCam" type="Camera2D" parent="PlayerCB2D" unique_id=882110774]
 
-[node name="PlayerCS2D" type="CollisionShape2D" parent="PlayerRB2D" unique_id=1836028655]
+[node name="PlayerCS2D" type="CollisionShape2D" parent="PlayerCB2D" unique_id=1836028655]
 scale = Vector2(1.05, 1.05)
 shape = SubResource("RectangleShape2D_mc0db")
 debug_color = Color(0.96862745, 0.98039216, 0.9647059, 0.5254902)
 
-[node name="Player" type="Sprite2D" parent="PlayerRB2D" unique_id=1804753450]
+[node name="Player" type="Sprite2D" parent="PlayerCB2D" unique_id=1804753450]
 scale = Vector2(0.025, 0.025)
 texture = ExtResource("1_mc0db")
 
-[connection signal="body_entered" from="PlayerRB2D" to="PlayerRB2D" method="_on_body_entered"]
-[connection signal="body_exited" from="PlayerRB2D" to="PlayerRB2D" method="_on_body_exited"]
+[node name="PlayerRB2D" type="RigidBody2D" parent="." unique_id=1738796308 groups=["Player"]]
+visible = false
+physics_material_override = SubResource("PhysicsMaterial_mc0db")
+lock_rotation = true
