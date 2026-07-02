@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cffcggfn5ug0x"]
 
 [ext_resource type="Texture2D" uid="uid://cwy3uk4nom1jd" path="res://Textures/Player.png" id="1_mc0db"]
+[ext_resource type="Script" uid="uid://vwtq600ko2nm" path="res://TSCN/player_input_mgr.gd" id="2_ljt5j"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mc0db"]
 friction = 0.5
@@ -9,9 +10,12 @@ friction = 0.5
 
 [node name="Player" type="Node2D" unique_id=385360104]
 
+[node name="PlayerCam" type="Camera2D" parent="." unique_id=882110774]
+
 [node name="PlayerRB2D" type="RigidBody2D" parent="." unique_id=1738796308]
 physics_material_override = SubResource("PhysicsMaterial_mc0db")
 lock_rotation = true
+script = ExtResource("2_ljt5j")
 
 [node name="PlayerCS2D" type="CollisionShape2D" parent="PlayerRB2D" unique_id=1836028655]
 shape = SubResource("RectangleShape2D_mc0db")
