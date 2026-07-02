@@ -94,6 +94,12 @@ func _input(_event: InputEvent) -> void:
 			is_jumping = true
 		else:
 			is_jumping = false
+	
+	if _event is InputEventKey and _event.keycode == KEY_SPACE:
+		if _event.is_pressed():
+			is_jumping = true
+		else:
+			is_jumping = false
 
 func _player_death() -> void:
 	if position.y > 150.0:
