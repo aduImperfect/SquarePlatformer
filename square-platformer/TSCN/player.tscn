@@ -25,3 +25,6 @@ debug_color = Color(0.96862745, 0.98039216, 0.9647059, 0.5254902)
 [node name="Player" type="Sprite2D" parent="PlayerRB2D" unique_id=1804753450]
 scale = Vector2(0.025, 0.025)
 texture = ExtResource("1_mc0db")
+
+[connection signal="body_entered" from="PlayerRB2D" to="PlayerRB2D" method="_on_body_entered"]
+[connection signal="body_exited" from="PlayerRB2D" to="PlayerRB2D" method="_on_body_exited"]
