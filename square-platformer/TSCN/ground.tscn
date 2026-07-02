@@ -2,9 +2,19 @@
 
 [ext_resource type="Texture2D" uid="uid://dse5evi2apb5f" path="res://Textures/Ground.png" id="1_omg0e"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_omg0e"]
+
 [node name="Ground" type="Node2D" unique_id=521068129]
 
-[node name="Ground" type="Sprite2D" parent="." unique_id=1514770529]
+[node name="GroundRB2D" type="RigidBody2D" parent="." unique_id=1429587799]
+freeze = true
+
+[node name="GroundCS2D" type="CollisionShape2D" parent="GroundRB2D" unique_id=390297372]
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_omg0e")
+debug_color = Color(1, 0, 0, 0.41960785)
+
+[node name="Ground" type="Sprite2D" parent="GroundRB2D" unique_id=1514770529]
 z_index = 5
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("1_omg0e")
