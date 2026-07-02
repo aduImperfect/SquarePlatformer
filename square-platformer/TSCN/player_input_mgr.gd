@@ -89,13 +89,7 @@ func _input(_event: InputEvent) -> void:
 		else:
 			no_input = true
 
-	if _event is InputEventKey and _event.keycode == KEY_UP:
-		if _event.is_pressed():
-			is_jumping = true
-		else:
-			is_jumping = false
-	
-	if _event is InputEventKey and _event.keycode == KEY_SPACE:
+	if _event is InputEventKey and _event.keycode == KEY_UP || KEY_SPACE:
 		if _event.is_pressed():
 			is_jumping = true
 		else:
