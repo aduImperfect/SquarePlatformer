@@ -5,9 +5,6 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mc0db"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mc0db"]
-friction = 0.5
-
 [node name="Player" type="Node2D" unique_id=385360104]
 
 [node name="PlayerCB2D" type="CharacterBody2D" parent="." unique_id=294312982]
@@ -23,8 +20,3 @@ debug_color = Color(0.96862745, 0.98039216, 0.9647059, 0.5254902)
 [node name="Player" type="Sprite2D" parent="PlayerCB2D" unique_id=1804753450]
 scale = Vector2(0.025, 0.025)
 texture = ExtResource("1_mc0db")
-
-[node name="PlayerRB2D" type="RigidBody2D" parent="." unique_id=1738796308 groups=["Player"]]
-visible = false
-physics_material_override = SubResource("PhysicsMaterial_mc0db")
-lock_rotation = true

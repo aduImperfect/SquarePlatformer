@@ -8,6 +8,18 @@ extends CharacterBody2D
 @export var up_speed : float = 0.0
 @export var horiz_speed : float = 0.0
 
+@export var max_up_speed : float = 0.0
+@export var max_horiz_speed : float = 0.0
+
+@export var up_speed_dec : float = 0.0
+@export var horiz_speed_dec : float = 0.0
+
+@export var up_speed_min : float = 0.0
+@export var horiz_speed_min : float = 0.0
+
+@export var up_speed_min_diff : float = 0.0
+@export var horiz_speed_min_diff : float = 0.0
+
 @export var no_input : bool = false
 @export var is_jumping : bool = false
 @export var grounded : bool = true
@@ -16,6 +28,14 @@ extends CharacterBody2D
 func _ready() -> void:
 	up_speed = 0.0
 	horiz_speed = 0.0
+	max_up_speed = 500.0
+	max_horiz_speed = 250.0
+	up_speed_dec = 100.0
+	horiz_speed_dec = 100.0
+	up_speed_min = 0.0
+	horiz_speed_min = 0.0
+	up_speed_min_diff = 0.1
+	horiz_speed_min_diff = 0.1
 	no_input = false
 	is_jumping = false
 	grounded = true
@@ -23,21 +43,21 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if no_input == true:
-		if horiz_speed < -0.1:
-			horiz_speed += _delta * 100.0
-		elif  horiz_speed > 0.1:
-			horiz_speed -= _delta * 100.0
+		if horiz_speed < -horiz_speed_min_diff:
+			horiz_speed += _delta * horiz_speed_dec
+		elif  horiz_speed > horiz_speed_min_diff:
+			horiz_speed -= _delta * horiz_speed_dec
 		else:
-			horiz_speed = 0.0
+			horiz_speed = horiz_speed_min
 
 	if is_jumping == true && grounded == true:
-		up_speed = 500.0
+		up_speed = max_up_speed
 		grounded = false
 	elif grounded == false:
-		if up_speed > 0.1:
-			up_speed -= _delta * 100.0
+		if up_speed > up_speed_min_diff:
+			up_speed -= _delta * up_speed_dec
 		else:
-			up_speed = 0.0
+			up_speed = up_speed_min
 
 	#print(up_speed)
 
@@ -50,7 +70,7 @@ func _physics_process(_delta: float) -> void:
 		velocity.y += gravity * _delta
 	else:
 		grounded = true
-		up_speed = 0.0
+		up_speed = up_speed_min
 
 	move_and_slide()
 
@@ -58,7 +78,7 @@ func _input(_event: InputEvent) -> void:
 	if _event is InputEventKey and _event.keycode == KEY_LEFT:
 		if _event.is_pressed():
 			#print("LEFT KEY PRESSED")
-			horiz_speed = -250.0
+			horiz_speed = -max_horiz_speed
 			no_input = false
 		else:
 			no_input = true
@@ -66,7 +86,7 @@ func _input(_event: InputEvent) -> void:
 	if _event is InputEventKey and _event.keycode == KEY_RIGHT:
 		if _event.is_pressed():
 			#print("RIGHT KEY PRESSED")
-			horiz_speed = 250.0
+			horiz_speed = max_horiz_speed
 			no_input = false
 		else:
 			no_input = true
