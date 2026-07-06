@@ -17,7 +17,7 @@ extends CharacterBody2D
 @export var up_speed_min_diff : float = 0.0
 @export var horiz_speed_min_diff : float = 0.0
 
-@export var no_input : bool = false
+@export var is_moving : bool = false
 @export var is_jumping : bool = false
 @export var grounded : bool = true
 
@@ -42,14 +42,14 @@ func _ready() -> void:
 	horiz_speed_min = 0.0
 	up_speed_min_diff = 0.1
 	horiz_speed_min_diff = 0.1
-	no_input = false
+	is_moving = false
 	is_jumping = false
 	grounded = true
 	playerStartPos = position
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	if no_input == true:
+	if not is_moving:
 		if horiz_speed < -horiz_speed_min_diff:
 			horiz_speed += _delta * horiz_speed_dec
 		elif  horiz_speed > horiz_speed_min_diff:
@@ -57,10 +57,10 @@ func _process(_delta: float) -> void:
 		else:
 			horiz_speed = horiz_speed_min
 
-	if is_jumping == true && grounded == true:
+	if is_jumping and grounded:
 		up_speed = max_up_speed
 		grounded = false
-	elif grounded == false:
+	elif not grounded:
 		if up_speed > up_speed_min_diff:
 			up_speed -= _delta * up_speed_dec
 		else:
@@ -72,41 +72,37 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	position.x += _delta * horiz_speed
 	position.y -= _delta * up_speed
-	
-	if not is_on_floor():
-		velocity.y += gravity * _delta
 
 	if wall_jump_lock_timer > 0:
 		wall_jump_lock_timer -= _delta
 
-	# 1. Handle Wall Sliding
-	if is_on_wall() and not is_on_floor() and velocity.y > 0:
-		velocity.y = min(velocity.y, WALL_SLIDE_SPEED)
-
-	# 2. Handle Jumping
-	if Input.is_action_just_pressed("ui_accept"):
-		if is_on_floor():
+	if is_on_floor():
+		if is_jumping:
 			velocity.y = JUMP_VELOCITY
-		elif is_on_wall() and not is_on_floor():
-			# Wall Jump: Use wall normal to push away
-			velocity.x = get_wall_normal().x * WALL_JUMP_PUSHBACK
-			velocity.y = JUMP_VELOCITY
-			wall_jump_lock_timer = WALL_JUMP_LOCK_TIME
+		else:
+			pass
+		grounded = true
+		up_speed = up_speed_min
+	else:
+		if is_on_wall():
+			if is_jumping:
+				# Wall Jump: Use wall normal to push away
+				velocity.x = get_wall_normal().x * WALL_JUMP_PUSHBACK
+				velocity.y = JUMP_VELOCITY
+				wall_jump_lock_timer = WALL_JUMP_LOCK_TIME
+			if velocity.y > 0.0:
+				# 1. Handle Wall Sliding
+				velocity.y = min(velocity.y, WALL_SLIDE_SPEED)
+		#Gravity fall! Times 2!
+		velocity.y += gravity * _delta * 2
+		grounded = false
 
 	# 3. Handle Horizontal Movement (with control lock)
 	if wall_jump_lock_timer <= 0:
-		var direction = Input.get_axis("ui_left", "ui_right")
-		velocity.x = direction * SPEED
+		velocity.x = horiz_speed
 	else:
 		# Air control during wall jump lock (optional, keeps inertia)
 		velocity.x = move_toward(velocity.x, 0, 50)
-
-	if not is_on_floor():
-		grounded = false
-		velocity.y += gravity * _delta
-	else:
-		grounded = true
-		up_speed = up_speed_min
 
 	move_and_slide()
 
@@ -114,16 +110,16 @@ func _input(_event: InputEvent) -> void:
 	if _event is InputEventKey and _event.keycode == KEY_LEFT:
 		if _event.is_pressed():
 			horiz_speed = -max_horiz_speed
-			no_input = false
+			is_moving = true
 		else:
-			no_input = true
+			is_moving = false
 
 	if _event is InputEventKey and _event.keycode == KEY_RIGHT:
 		if _event.is_pressed():
 			horiz_speed = max_horiz_speed
-			no_input = false
+			is_moving = true
 		else:
-			no_input = true
+			is_moving = false
 
 	if _event is InputEventKey and _event.keycode == KEY_UP:
 		if _event.is_pressed():
@@ -142,6 +138,5 @@ func _player_death() -> void:
 		position = playerStartPos
 		up_speed = 0.0
 		horiz_speed = 0.0
-		no_input = false
+		is_moving = false
 		is_jumping = false
-		grounded = true
